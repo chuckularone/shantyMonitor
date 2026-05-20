@@ -1,0 +1,17 @@
+[Unit]
+Description=Shanty Monitor Collector
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+User=www-data
+ExecStart=/usr/bin/python3 /opt/shanty-monitor/collector/collector.py
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=shanty-collector
+
+[Install]
+WantedBy=multi-user.target

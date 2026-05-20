@@ -1,0 +1,48 @@
+# Shanty Monitor - Host Configuration
+# collector listens on this host/port (internal only)
+collector:
+  host: 0.0.0.0
+  port: 2777
+  token: "CHANGE_THIS_TO_A_RANDOM_SECRET"   # shared with all agents
+  db_path: /var/lib/shanty-monitor/metrics.db
+  json_output: /var/www/html/dashboard/metrics.json
+  probe_interval: 60        # seconds between probe cycles
+  history_days: 7           # how many days of history to keep
+
+# Hosts running the full agent (push metrics + port checks)
+agent_hosts:
+  - name: webserver
+    ip: 192.168.1.168
+    ports: [22, 80, 443]
+    tags: [web, local]
+
+  - name: mail
+    ip: mail.theshanty.us
+    ports: [25, 587, 993, 465]
+    tags: [mail, external]
+
+# Hosts with no CLI access - probe only (ping + port checks)
+probe_only_hosts:
+  - name: homeassistant
+    ip: 192.168.1.x          # <-- fill in
+    ports: [8123]
+    tags: [iot, local]
+
+  - name: flightaware
+    ip: 192.168.1.x          # <-- fill in
+    ports: [8080]
+    tags: [iot, local]
+
+# External domains checked via HTTPS from this machine
+external_domains:
+  - name: blog.theshanty.us
+    url: https://blog.theshanty.us
+    expected_status: 200
+
+  - name: theshanty.us
+    url: https://theshanty.us
+    expected_status: 200
+
+  - name: mckenna.tv
+    url: https://mckenna.tv
+    expected_status: 200

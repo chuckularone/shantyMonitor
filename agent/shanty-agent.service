@@ -1,0 +1,16 @@
+[Unit]
+Description=Shanty Monitor Agent
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+ExecStart=/usr/bin/python3 /opt/shanty-monitor/agent.py
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=shanty-agent
+
+[Install]
+WantedBy=multi-user.target

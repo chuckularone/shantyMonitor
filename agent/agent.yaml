@@ -1,0 +1,7 @@
+# Shanty Monitor - Agent Config
+# Copy to /etc/shanty-monitor/agent.yaml on each managed host
+
+collector_url: http://192.168.1.168:2777
+token: "CHANGE_THIS_TO_A_RANDOM_SECRET"   # must match collector config
+hostname: ""        # leave blank to use system hostname
+interval: 60        # push interval in seconds
