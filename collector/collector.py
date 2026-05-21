@@ -379,6 +379,11 @@ def write_json():
             a = agent_latest.get(name)
             p = probe_latest.get(name)
 
+            # Resolve IP from config
+            cfg_host = next(
+                (h for h in (AGENT_HOSTS + PROBE_HOSTS) if h["name"] == name), {}
+            )
+
             # Staleness: agent data older than 3x interval = warn
             agent_stale = False
             if a:
@@ -387,6 +392,7 @@ def write_json():
 
             host_entry = {
                 "name":        name,
+                "ip":          cfg_host.get("ip"),
                 "is_agent":    is_agent,
                 "agent_stale": agent_stale,
                 "last_seen":   a["ts"] if a else None,

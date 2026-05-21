@@ -297,6 +297,7 @@
         <thead>
           <tr>
             <th>Host</th>
+            <th class="hide-mobile">IP</th>
             <th>Status</th>
             <th>CPU</th>
             <th>Memory</th>
@@ -317,6 +318,7 @@
         <thead>
           <tr>
             <th>Host</th>
+            <th class="hide-mobile">IP</th>
             <th>Ping</th>
             <th>Ports</th>
             <th class="hide-mobile">Ping History</th>
@@ -610,7 +612,7 @@ function renderAgentHosts(hosts) {
   const tbody = document.getElementById('agent-tbody');
   const agentHosts = hosts.filter(h => h.is_agent);
   if (!agentHosts.length) {
-    tbody.innerHTML = '<tr><td colspan="9" style="color:var(--muted);text-align:center">No agent hosts yet.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" style="color:var(--muted);text-align:center">No agent hosts yet.</td></tr>';
     return;
   }
 
@@ -621,6 +623,7 @@ function renderAgentHosts(hosts) {
       <td class="host-name-cell" onclick="toggleExpand('${h.name}')">
         <span class="expand-icon ${expanded.has(h.name) ? 'open' : ''}" id="icon-${h.name}">▶</span>${h.name}
       </td>
+      <td class="hide-mobile" style="color:var(--muted);font-size:11px">${h.ip || '—'}</td>
       <td>${statusBadge(h)}</td>
       <td>${meterHtml(h.cpu_pct)}</td>
       <td>${meterHtml(h.mem_pct)}</td>
@@ -631,7 +634,7 @@ function renderAgentHosts(hosts) {
       <td class="hide-mobile">${inlineSparkHtml(h.name, 'cpu', '#58a6ff')}</td>
     </tr>
     <tr class="detail-row" id="detail-${h.name}" style="display:${expanded.has(h.name) ? '' : 'none'}">
-      <td colspan="9">${buildDetailPanel(h)}</td>
+      <td colspan="10">${buildDetailPanel(h)}</td>
     </tr>`;
   });
 
@@ -651,7 +654,7 @@ function renderProbeHosts(hosts) {
   const tbody = document.getElementById('probe-tbody');
   const probeHosts = hosts.filter(h => !h.is_agent);
   if (!probeHosts.length) {
-    tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted);text-align:center">No probe-only hosts configured.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);text-align:center">No probe-only hosts configured.</td></tr>';
     return;
   }
 
@@ -661,6 +664,7 @@ function renderProbeHosts(hosts) {
     const pingLbl = h.ping_ok ? `up ${fmtMs(h.ping_ms)}` : (h.ping_ok === false ? 'no ping' : 'unknown');
     html += `<tr>
       <td>${h.name}</td>
+      <td class="hide-mobile" style="color:var(--muted);font-size:11px">${h.ip || '—'}</td>
       <td><span class="badge ${pingCls}">${pingLbl}</span></td>
       <td>${portDots(h.ports)}</td>
       <td class="hide-mobile">${inlineSparkHtml(h.name, 'ping', '#bc8cff')}</td>
